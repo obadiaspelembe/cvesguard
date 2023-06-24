@@ -10,18 +10,18 @@ import (
 )
 
 const VERSION = "Version"
-const POLICY = "Policy"
+const SPEC = "Spec"
 const NAME = "Name"
 
-type PolicyItem struct {
+type SpecItem struct {
 	Type   string `json:"type" binding:"required"`
 	Target string `json:"target" binding:"required"`
 }
 
 type Policy struct {
-	Version string       `json:"version"`
-	Name    string       `json:"name"`
-	Policy  []PolicyItem `json:"policy"`
+	Version string     `json:"version"`
+	Name    string     `json:"name"`
+	Spec    []SpecItem `json:"spec"`
 }
 
 func check(e error) {
@@ -42,7 +42,7 @@ func readPolicyFile(path string) Policy {
 	return Policy{
 		Version: config.Version,
 		Name:    config.Name,
-		Policy:  config.Policy,
+		Spec:    config.Spec,
 	}
 
 }
@@ -52,14 +52,12 @@ func Validate(policyFile string) Policy {
 	policyJson := readPolicyFile(policyFile)
 
 	// Check if the policyVersion is Zero
-	if reflect.ValueOf(policyJson).FieldByName(POLICY).IsZero() {
-		fmt.Printf("%s field is invalid, check if it's defined.\n", POLICY)
-	
+	if reflect.ValueOf(policyJson).FieldByName(SPEC).IsZero() {
+		fmt.Printf("%s field is invalid, check if it's defined.\n", SPEC)
 	}
 
 	if reflect.ValueOf(policyJson).FieldByName(VERSION).IsZero() {
-		fmt.Printf("%s field is invalid, check if it's defined. \n", VERSION)
-		fmt.Println(policyJson.Version)
+		fmt.Printf("%s field is invalid, check if it's defined. \n", VERSION) 
 	}
 
 	if reflect.ValueOf(policyJson).FieldByName(NAME).IsZero() {

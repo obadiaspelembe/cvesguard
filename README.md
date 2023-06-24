@@ -41,7 +41,7 @@ policy.yaml
 ```
 version:  1.0.0
 name: policy-name
-policy: 
+spec: 
   - type: critical
     target: 2
   - type: medium

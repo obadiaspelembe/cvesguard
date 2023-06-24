@@ -1,7 +1,7 @@
 ---
 version: v1.0.0
 name: policy-name
-policy: 
+spec: 
   - type: critical
     target: 2
     name: a
