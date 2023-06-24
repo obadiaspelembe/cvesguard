@@ -1,0 +1,10 @@
+---
+policyVersion:  1.0.0
+name: policy-name
+policy: 
+  - type: critical
+    target: 2
+  - type: medium
+    target: 1
+  - type: low
+    target: 100
