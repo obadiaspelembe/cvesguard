@@ -9,7 +9,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const POLICY_VERSION = "PolicyVersion"
+const VERSION = "Version"
 const POLICY = "Policy"
 const NAME = "Name"
 
@@ -19,9 +19,9 @@ type PolicyItem struct {
 }
 
 type Policy struct {
-	PolicyVersion string       `json:"policyVersion"`
-	Name          string       `json:"name"`
-	Policy        []PolicyItem `json:"policy"`
+	Version string       `json:"version"`
+	Name    string       `json:"name"`
+	Policy  []PolicyItem `json:"policy"`
 }
 
 func check(e error) {
@@ -40,28 +40,30 @@ func readPolicyFile(path string) Policy {
 	check(err)
 
 	return Policy{
-		PolicyVersion: config.PolicyVersion,
-		Name:          config.Name,
-		Policy:        config.Policy,
+		Version: config.Version,
+		Name:    config.Name,
+		Policy:  config.Policy,
 	}
 
 }
 
 func Validate(policyFile string) Policy {
+
 	policyJson := readPolicyFile(policyFile)
 
 	// Check if the policyVersion is Zero
 	if reflect.ValueOf(policyJson).FieldByName(POLICY).IsZero() {
-		fmt.Printf("%s field is invalid \n", POLICY)
+		fmt.Printf("%s field is invalid, check if it's defined.\n", POLICY)
+	
 	}
 
-	if reflect.ValueOf(policyJson).FieldByName(POLICY_VERSION).IsZero() {
-		fmt.Printf("%s field is invalid \n", POLICY_VERSION)
-		fmt.Println(policyJson.PolicyVersion)
+	if reflect.ValueOf(policyJson).FieldByName(VERSION).IsZero() {
+		fmt.Printf("%s field is invalid, check if it's defined. \n", VERSION)
+		fmt.Println(policyJson.Version)
 	}
 
 	if reflect.ValueOf(policyJson).FieldByName(NAME).IsZero() {
-		fmt.Printf("%s field is invalid \n", NAME)
+		fmt.Printf("%s field is invalid, check if it's defined. \n", NAME)
 	}
 
 	return policyJson
