@@ -1,14 +1,21 @@
 package utils
 
 import (
+	"fmt"
 	"io/ioutil"
+
+	"reflect"
 
 	"gopkg.in/yaml.v3"
 )
 
+const POLICY_VERSION = "PolicyVersion"
+const POLICY = "Policy"
+const NAME = "Name"
+
 type PolicyItem struct {
-	Type   string `json:"type"`
-	Target string `json:"target"`
+	Type   string `json:"type" binding:"required"`
+	Target string `json:"target" binding:"required"`
 }
 
 type Policy struct {
@@ -23,7 +30,7 @@ func check(e error) {
 	}
 }
 
-func readFile(path string) {
+func readPolicyFile(path string) Policy {
 
 	data, err := ioutil.ReadFile(path)
 
@@ -32,8 +39,30 @@ func readFile(path string) {
 
 	check(err)
 
+	return Policy{
+		PolicyVersion: config.PolicyVersion,
+		Name:          config.Name,
+		Policy:        config.Policy,
+	}
+
 }
 
-func Validate(policy string) {
-	readFile(policy)
+func Validate(policyFile string) Policy {
+	policyJson := readPolicyFile(policyFile)
+
+	// Check if the policyVersion is Zero
+	if reflect.ValueOf(policyJson).FieldByName(POLICY).IsZero() {
+		fmt.Printf("%s field is invalid \n", POLICY)
+	}
+
+	if reflect.ValueOf(policyJson).FieldByName(POLICY_VERSION).IsZero() {
+		fmt.Printf("%s field is invalid \n", POLICY_VERSION)
+		fmt.Println(policyJson.PolicyVersion)
+	}
+
+	if reflect.ValueOf(policyJson).FieldByName(NAME).IsZero() {
+		fmt.Printf("%s field is invalid \n", NAME)
+	}
+
+	return policyJson
 }

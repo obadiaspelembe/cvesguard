@@ -1,9 +1,10 @@
 ---
-policyVersion:  1.0.0
+policyVersion: v1.0.0
 name: policy-name
 policy: 
   - type: critical
     target: 2
+    name: a
   - type: medium
     target: 1
   - type: low
