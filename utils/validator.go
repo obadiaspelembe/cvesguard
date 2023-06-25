@@ -1,55 +1,46 @@
 package utils
 
 import (
+	// "encoding/json"
+	"encoding/json"
 	"fmt"
+	"os"
 
-	"reflect"
+	"github.com/grahms/godantic"
 )
 
 func checkPolicy(policyFile string) bool {
 
-	policyJson := readPolicyFile(policyFile)
-
-	if reflect.ValueOf(policyJson).FieldByName(SPEC).IsZero() {
-		fmt.Printf("%s field is invalid, check if it's defined.\n", SPEC)
-		return false
-	}
-
-	if reflect.ValueOf(policyJson).FieldByName(VERSION).IsZero() {
-		fmt.Printf("%s field is invalid, check if it's defined. \n", VERSION)
-		return false
-	}
-
-	if reflect.ValueOf(policyJson).FieldByName(NAME).IsZero() {
-		fmt.Printf("%s field is invalid, check if it's defined. \n", NAME)
-		return false
-	}
+	readPolicyFile(policyFile)
 
 	return true
 }
 
-func checkReport(policyFile string) bool {
+func checkReport(reportFile string) (bool, error) {
 
-	policyJson := readPolicyFile(policyFile)
+	var report Report
 
-	if reflect.ValueOf(policyJson).FieldByName(SPEC).IsZero() {
-		fmt.Printf("%s field is invalid, check if it's defined.\n", SPEC)
-		return false
+	reportObject := readReportFile(reportFile)
+
+	validator := godantic.Validate{}
+
+	jsonBytes, err := json.Marshal(reportObject)
+
+	if err == nil {
+		err = validator.BindJSON(jsonBytes, &report)
 	}
 
-	if reflect.ValueOf(policyJson).FieldByName(VERSION).IsZero() {
-		fmt.Printf("%s field is invalid, check if it's defined. \n", VERSION)
-		return false
-	}
-
-	if reflect.ValueOf(policyJson).FieldByName(NAME).IsZero() {
-		fmt.Printf("%s field is invalid, check if it's defined. \n", NAME)
-		return false
-	}
-
-	return true
+	return checkReturnBool(err), err
 }
 
-func Validate(policyFile string) {
+func Validate(policyFile string, reportFile string) {
 
+	condition, err := checkReport(policyFile)
+
+	if !condition {
+		fmt.Println("Validation result: ", err)
+		os.Exit(0)
+	}
+
+	fmt.Println("Configurations are valid")
 }

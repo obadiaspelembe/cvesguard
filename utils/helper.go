@@ -5,3 +5,10 @@ func check(e error) {
 		panic(e)
 	}
 }
+
+func checkReturnBool(e error) bool {
+	if e != nil {
+		return false
+	}
+	return true
+}
