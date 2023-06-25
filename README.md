@@ -1,6 +1,6 @@
 # CVES-Guard
 
-cvesguard (Short form of Docker Scout CVES Guard) is a tool to policy docker images cves vulnerabilities through a policy manifest in your pipeline. This tool helps CI/CD engineers to determine whether a Docker Image can be deployed after docker scout command execution.
+cvesguard (Short form of Docker Scout CVES Guard) is a tool to police docker images cves vulnerabilities through a policy manifest in your pipeline. This tool helps CI/CD engineers to determine whether a Docker Image can be deployed after docker scout command execution.
 
 ## How to use cvesguard
 
