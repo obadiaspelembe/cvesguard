@@ -13,19 +13,19 @@ func ApplyPolicy(policyPath string, reportPath string) bool {
 	policy := readPolicyFile(policyPath)
 	report := getReport(reportPath)
 
-	if policy.Spec.Config.Low > report.Low {
+	if *policy.Spec.Config.Low > report.Low {
 		fmt.Println("Low unexpected ")
 		return false
 	}
-	if policy.Spec.Config.Medium > report.Medium {
+	if *policy.Spec.Config.Medium > report.Medium {
 		fmt.Println("Medium unexpected ")
 		return false
 	}
-	if policy.Spec.Config.High > report.High {
+	if *policy.Spec.Config.High > report.High {
 		fmt.Println("High unexpected ")
 		return false
 	}
-	if policy.Spec.Config.Critical > report.Critical {
+	if *policy.Spec.Config.Critical > report.Critical {
 		fmt.Println("Critical unexpected ")
 		return false
 	}
@@ -39,18 +39,20 @@ func getReport(path string) VulnerabilityCount {
 
 	var vCount VulnerabilityCount
 
-	for _, vRuns := range report.Runs {
-		for _, vCounts := range vRuns.Tool.Driver.Rules {
-			if vCounts.Properties.Tags[0] == "LOW" || vCounts.Properties.Tags[0] == "UNSPECIFIED" {
+	for _, vRuns := range *report.Runs {
+		for _, vCounts := range *vRuns.Tool.Driver.Rules {
+			tag := *vCounts.Properties.Tags
+
+			if tag[0] == "LOW" || tag[0] == "UNSPECIFIED" {
 				vCount.Low += 1
 			}
-			if vCounts.Properties.Tags[0] == "MEDIUM" {
+			if tag[0] == "MEDIUM" {
 				vCount.Medium += 1
 			}
-			if vCounts.Properties.Tags[0] == "HIGH" {
+			if tag[0] == "HIGH" {
 				vCount.High += 1
 			}
-			if vCounts.Properties.Tags[0] == "CRITICAL" {
+			if tag[0] == "CRITICAL" {
 				vCount.Critical += 1
 			}
 		}
