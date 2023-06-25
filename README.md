@@ -39,15 +39,15 @@ Example:
 policy.yaml
 
 ```
-version:  1.0.0
+---
+version: v1.0.0
 name: policy-name
-spec: 
-  - type: critical
-    target: 2
-  - type: medium
-    target: 1
-  - type: low
-    target: 100
-
+kind: Vulnerability
+spec:
+  config:
+    critical: 4
+    high: 2
+    medium: 2
+    low: 2
 ```
 
