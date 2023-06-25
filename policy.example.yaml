@@ -4,7 +4,7 @@ name: policy-name
 kind: Vulnerability
 spec:
   config:
-    critical: 4
+    critical: 2
     high: 2
     medium: 2
     low: 2

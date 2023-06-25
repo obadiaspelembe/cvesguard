@@ -1,17 +1,17 @@
 package cmd
 
 import (
-	"obadiaspelembe/cves-guard/utils"
-
+	"fmt"
 	"github.com/spf13/cobra"
+	"obadiaspelembe/cves-guard/utils"
 )
 
 var applyCommand = &cobra.Command{
 	Use:   "apply",
 	Short: "apply policy into cves-report",
 	Run: func(cmd *cobra.Command, args []string) {
-		// fmt.Println("apply file: ", cmd.Flag("cves-report").Value.String())
-
-		utils.ApplyPolicy(cmd.Flag("policy").Value.String(), cmd.Flag("cves-report").Value.String())
+		if utils.ApplyPolicy(cmd.Flag("policy").Value.String(), cmd.Flag("cves-report").Value.String()) {
+			fmt.Println("Configuration is valid")
+		}
 	},
 }
