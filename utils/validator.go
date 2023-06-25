@@ -1,11 +1,8 @@
 package utils
 
 import (
-	// "encoding/json"
 	"encoding/json"
 	"fmt"
-	"os"
-
 	"github.com/grahms/godantic"
 )
 
@@ -33,14 +30,16 @@ func checkReport(reportFile string) (bool, error) {
 	return checkReturnBool(err), err
 }
 
-func Validate(policyFile string, reportFile string) {
+func Validate(policyFile string, reportFile string) bool {
 
 	condition, err := checkReport(policyFile)
 
 	if !condition {
 		fmt.Println("Validation result: ", err)
-		os.Exit(0)
+		return false
 	}
 
 	fmt.Println("Configurations are valid")
+
+	return true
 }
