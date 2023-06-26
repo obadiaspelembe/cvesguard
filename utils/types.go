@@ -71,3 +71,8 @@ type Report struct {
 	Version *string      `json:"version" binding:"required"`
 	Runs    *[]ReportRun `json:"runs" binding:"required"`
 }
+
+type ResultProps struct {
+	Vulnerability string `json:"vulnerability" binding:"required"`
+	Package       string `json:"package" binding:"required"`
+}

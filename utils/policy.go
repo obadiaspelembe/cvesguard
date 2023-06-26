@@ -1,6 +1,8 @@
 package utils
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type VulnerabilityCount struct {
 	Low      int `json:"low"`
@@ -40,21 +42,13 @@ func getReport(path string) VulnerabilityCount {
 	var vCount VulnerabilityCount
 
 	for _, vRuns := range *report.Runs {
-		for _, vCounts := range *vRuns.Tool.Driver.Rules {
-			tag := *vCounts.Properties.Tags
+		for _, vCounts := range *vRuns.Results {
+			vCountBuffer := getResultProps(*vCounts.Message.Text)
 
-			if tag[0] == "LOW" || tag[0] == "UNSPECIFIED" {
-				vCount.Low += 1
-			}
-			if tag[0] == "MEDIUM" {
-				vCount.Medium += 1
-			}
-			if tag[0] == "HIGH" {
-				vCount.High += 1
-			}
-			if tag[0] == "CRITICAL" {
-				vCount.Critical += 1
-			}
+			vCount.Critical = vCount.Critical + vCountBuffer.Critical
+			vCount.High = vCount.High + vCountBuffer.High
+			vCount.Medium = vCount.Medium + vCountBuffer.Medium
+			vCount.Low = vCount.Low + vCountBuffer.Low
 		}
 	}
 
