@@ -18,9 +18,7 @@ func readPolicyFile(path string) Policy {
 
 	return Policy{
 		Version: config.Version,
-		Name:    config.Name,
 		Spec:    config.Spec,
-		Kind:    config.Kind,
 	}
 }
 
