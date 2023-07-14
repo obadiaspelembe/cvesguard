@@ -15,22 +15,22 @@ func ExecPolicy(policyPath string, reportPath string) bool {
 	policy := readPolicyFile(policyPath)
 	report := getReport(reportPath)
 
-	if *policy.Spec.Config.Critical > report.Critical {
+	if *policy.Spec.Config.Vulnerability.Critical > report.Critical {
 		fmt.Println("Critical unexpected ")
 		return false
 	}
 
-	if *policy.Spec.Config.High > report.High {
+	if *policy.Spec.Config.Vulnerability.High > report.High {
 		fmt.Println("High unexpected ")
 		return false
 	}
 
-	if *policy.Spec.Config.Medium > report.Medium {
+	if *policy.Spec.Config.Vulnerability.Medium > report.Medium {
 		fmt.Println("Medium unexpected ")
 		return false
 	}
 
-	if *policy.Spec.Config.Low > report.Low {
+	if *policy.Spec.Config.Vulnerability.Low > report.Low {
 		fmt.Println("Low unexpected ")
 		return false
 	}

@@ -1,10 +1,16 @@
 ---
-version: v1.0.0
-name: policy-name
-kind: Vulnerability
+version: v1.0.0 
 spec:
   config:
-    critical: 2
-    high: 2
-    medium: 2
-    low: 2
+    vulnerability:
+      critical: 8
+      high: 123
+      medium: 2
+      low: 2
+    packages:
+      - name: log4j
+        action: ignore
+        severity:
+          - critical
+          - high
+

@@ -22,11 +22,11 @@ cvesguard lint -p policy.yaml -r cves-report.json
 Applies the specified policy in the manifest.
 
 ```
-cvesguard apply --policy policy.yaml --cves-report cves-report.json
+cvesguard exec --policy policy.yaml --cves-report cves-report.json
 
 or
 
-cvesguard apply -p policy.yaml -r cves-report.json
+cvesguard exec -p policy.yaml -r cves-report.json
 
 ```
 

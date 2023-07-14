@@ -1,10 +1,21 @@
 package utils
 
-type Configuration struct {
+type Vulnerability struct {
 	Critical *int `json:"critical" binding:"required"`
 	High     *int `json:"high" binding:"required"`
 	Medium   *int `json:"medium" binding:"required"`
 	Low      *int `json:"low" binding:"required"`
+}
+
+type Package struct {
+	Name     *string   `json:"name" binding:"required"`
+	Action   *string   `json:"action" binding:"required"`
+	Severity *[]string `json:"severity" binding:"required"`
+}
+
+type Configuration struct {
+	Vulnerability *Vulnerability `json:"vulnerability" binding:"required"`
+	Packages      []*Package     `json:"packages" binding:"required"`
 }
 
 type Spec struct {
@@ -13,8 +24,6 @@ type Spec struct {
 
 type Policy struct {
 	Version *string `json:"version" binding:"required"`
-	Name    *string `json:"name" binding:"required"`
-	Kind    *string `json:"kind" binding:"required"`
 	Spec    *Spec   `json:"spec" binding:"required"`
 }
 
