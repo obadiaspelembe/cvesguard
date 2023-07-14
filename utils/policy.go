@@ -11,7 +11,7 @@ type VulnerabilityCount struct {
 	Critical int `json:"critical"`
 }
 
-func ApplyPolicy(policyPath string, reportPath string) bool {
+func ExecPolicy(policyPath string, reportPath string) bool {
 	policy := readPolicyFile(policyPath)
 	report := getReport(reportPath)
 
