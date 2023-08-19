@@ -65,7 +65,7 @@ type ReportRunResultMessage struct {
 }
 type ReportRunResult struct {
 	RuleId    *string                 `json:"ruleId" binding:"required"`
-	RuleIndex *string                 `json:"ruleIndex" binding:"required"`
+	RuleIndex *int                 `json:"ruleIndex" binding:"required"`
 	Kind      *string                 `json:"kind" binding:"required"`
 	Level     *string                 `json:"level" binding:"required"`
 	Message   *ReportRunResultMessage `json:"message" binding:"required"`

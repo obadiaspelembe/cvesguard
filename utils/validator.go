@@ -6,6 +6,7 @@ import (
 	"github.com/grahms/godantic"
 )
 
+// Check if policy file comply with policy schema
 func checkPolicy(policyFile string) bool {
 
 	readPolicyFile(policyFile)
@@ -13,6 +14,7 @@ func checkPolicy(policyFile string) bool {
 	return true
 }
 
+// Check if report file comply with report schema
 func checkReport(reportFile string) (bool, error) {
 
 	var report Report
@@ -30,9 +32,10 @@ func checkReport(reportFile string) (bool, error) {
 	return checkReturnBool(err), err
 }
 
+// Validate the policy and reports files to comply with the expected schema
 func Validate(policyFile string, reportFile string) bool {
 
-	condition, err := checkReport(policyFile)
+	condition, err := checkReport(reportFile)
 
 	if !condition {
 		fmt.Println("Validation result: ", err)

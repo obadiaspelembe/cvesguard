@@ -1,14 +1,20 @@
 package utils
 
 import (
-	"io/ioutil"
+	"encoding/json"
+	"os"
 
 	"gopkg.in/yaml.v3"
 )
 
+
+/*
+	Read CVES Policy yaml file and parse it into struct
+	:path - policy filename
+*/
 func readPolicyFile(path string) Policy {
 
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 
 	var config Policy
 
@@ -22,13 +28,17 @@ func readPolicyFile(path string) Policy {
 	}
 }
 
+/*
+	Read CVES report json file and parse it into struct
+	:path - report filename
+*/
 func readReportFile(path string) Report {
 
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 
 	var report Report
 
-	err = yaml.Unmarshal([]byte(data), &report)
+	err = json.Unmarshal([]byte(data), &report)
 
 	check(err)
 
