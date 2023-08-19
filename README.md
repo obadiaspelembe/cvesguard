@@ -18,8 +18,8 @@ cvesguard lint -p policy.yaml -r cves-report.json
 
 ```
 
-### Apply
-Applies the specified policy in the manifest.
+### Exec policy
+Checks the specified policy in the manifest.
 
 ```
 cvesguard exec --policy policy.yaml --cves-report cves-report.json
@@ -40,14 +40,19 @@ policy.yaml
 
 ```
 ---
-version: v1.0.0
-name: policy-name
-kind: Vulnerability
+version: v1.0.0 
 spec:
   config:
-    critical: 4
-    high: 2
-    medium: 2
-    low: 2
+    vulnerability:
+      critical: 0
+      high: 0
+      medium: 100
+      low: 2
+    packages:
+      - name: log4j
+        action: ignore
+        severity:
+          - critical
+          - high
 ```
 
