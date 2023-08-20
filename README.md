@@ -62,6 +62,41 @@ spec:
           - high
 ```
 
+### POLICY
+
+| NAME| Type | Required |
+|----------|----------|----------|
+| version | TEXT | yes |
+| spec | [SPEC](###spec) | yes |
+
+
+### SPEC
+| NAME| Type | Required |
+|----------|----------|----------| 
+| config | [CONFIG](###config) | yes |
+
+### CONFIG
+
+| NAME| Type | Required |
+|----------|----------|----------| 
+| vulnerability | [VULNERABILITY](###vulnerability) | yes |
+| packages | ARRAY [PACKAGE](###package) | No |
+
+### VULNERABILITY
+| NAME| Type | Required |
+|----------|----------|----------|
+| critical | NUMBER | yes | 
+| high | NUMBER | yes | 
+| medium | NUMBER | yes | 
+| low | NUMBER | yes | 
+
+### PACKAGE
+| NAME| Type | Required |
+|----------|----------|----------|
+| name | TEXT | yes | 
+| action | TEXT - Available options `allow` and `deny` | yes | 
+| severity | LIST - Available options `critical`, `high`, `medium` and `low` | yes | 
+
 ## Contributing
 
 Contributions are welcome! Please do not hesitate to submit a Pull Request.
