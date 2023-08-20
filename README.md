@@ -66,36 +66,36 @@ spec:
 
 | NAME| Type | Required |
 |----------|----------|----------|
-| version | TEXT | yes |
-| spec | [SPEC](###spec) | yes |
+| version | Text | yes |
+| spec | [Spec](#spec) | yes |
 
 
-### SPEC
+### Spec
 | NAME| Type | Required |
 |----------|----------|----------| 
-| config | [CONFIG](###config) | yes |
+| config | [Config](#config) | yes |
 
-### CONFIG
+### Config
 
 | NAME| Type | Required |
 |----------|----------|----------| 
-| vulnerability | [VULNERABILITY](###vulnerability) | yes |
-| packages | ARRAY [PACKAGE](###package) | No |
+| vulnerability | [Vulnerability](#vulnerability) | yes |
+| packages | List-[Package](#package) | No |
 
-### VULNERABILITY
+### Vulnerability
 | NAME| Type | Required |
 |----------|----------|----------|
-| critical | NUMBER | yes | 
-| high | NUMBER | yes | 
-| medium | NUMBER | yes | 
-| low | NUMBER | yes | 
+| critical | Number | yes | 
+| high | Number | yes | 
+| medium | Number | yes | 
+| low | Number | yes | 
 
-### PACKAGE
+### Package
 | NAME| Type | Required |
 |----------|----------|----------|
-| name | TEXT | yes | 
-| action | TEXT - Available options `allow` and `deny` | yes | 
-| severity | LIST - Available options `critical`, `high`, `medium` and `low` | yes | 
+| name | Text | yes | 
+| action | Text - Available options `allow` and `deny` | yes | 
+| severity | List - Available options `critical`, `high`, `medium` and `low` | yes | 
 
 ## Contributing
 
