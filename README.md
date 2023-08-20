@@ -62,3 +62,10 @@ spec:
           - high
 ```
 
+## Contributing
+
+Contributions are welcome! Please do not hesitate to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.
