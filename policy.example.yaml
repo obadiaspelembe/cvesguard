@@ -3,13 +3,13 @@ version: v1.0.0
 spec:
   config:
     vulnerability:
-      critical: 8
-      high: 123
-      medium: 2
-      low: 2
+      critical: 1
+      high: 40
+      medium: 12
+      low: 10
     packages:
       - name: stdlib
-        action: ignore
+        action: deny
         severity:
           - critical
           - high

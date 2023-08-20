@@ -9,5 +9,5 @@ import (
 
 func TestApply(t *testing.T) {
 	result := utils.ExecPolicy("policy.example.yaml", "cves-report.example.json")
-	assert.Equal(t, true, result, "Should return true")
+	assert.Equal(t, false, result, "Should return true")
 }
