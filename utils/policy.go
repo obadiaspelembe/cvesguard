@@ -46,7 +46,7 @@ func getReport(path string) VulnerabilityCount {
 
 	for _, vRuns := range *report.Runs {
 		for _, vCounts := range *vRuns.Results {
-			vCountBuffer := getResultProps(*vCounts.Message.Text)
+			vCountBuffer := generateVulnerabilityCount(*vCounts.Message.Text)
 
 			vCount.Critical = vCount.Critical + vCountBuffer.Critical
 			vCount.High = vCount.High + vCountBuffer.High

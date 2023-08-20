@@ -1,6 +1,6 @@
 package utils
 
-import (
+import ( 
 	"strings"
 )
 
@@ -10,6 +10,7 @@ func check(e error) {
 	}
 }
 
+
 func checkReturnBool(e error) bool {
 	if e != nil {
 		return false
@@ -17,7 +18,7 @@ func checkReturnBool(e error) bool {
 	return true
 }
 
-func getResultProps(text string) VulnerabilityCount {
+func generateVulnerabilityCount(text string) VulnerabilityCount {
 
 	textList := strings.Split(text, "\n")
 
