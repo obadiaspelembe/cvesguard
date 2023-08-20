@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestApply(t *testing.T) {
+func TestCheck(t *testing.T) {
 	result := utils.ExecPolicy("policy.example.yaml", "cves-report.example.json")
-	assert.Equal(t, false, result, "Should return true")
+	assert.Equal(t, true, result, "Should return true")
 }
