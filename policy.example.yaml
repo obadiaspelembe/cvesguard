@@ -8,7 +8,7 @@ spec:
       medium: 2
       low: 2
     packages:
-      - name: log4j
+      - name: stdlib
         action: ignore
         severity:
           - critical

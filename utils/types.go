@@ -65,7 +65,7 @@ type ReportRunResultMessage struct {
 }
 type ReportRunResult struct {
 	RuleId    *string                 `json:"ruleId" binding:"required"`
-	RuleIndex *int                 `json:"ruleIndex" binding:"required"`
+	RuleIndex *int                    `json:"ruleIndex" binding:"required"`
 	Kind      *string                 `json:"kind" binding:"required"`
 	Level     *string                 `json:"level" binding:"required"`
 	Message   *ReportRunResultMessage `json:"message" binding:"required"`
@@ -84,4 +84,22 @@ type Report struct {
 type ResultProps struct {
 	Vulnerability string `json:"vulnerability" binding:"required"`
 	Package       string `json:"package" binding:"required"`
+}
+
+type CVESData struct {
+	Vulnerability string `json:"vulnerability"`
+	Severity      string `json:"severity"`
+	Package       string `json:"package"`
+	AffectedRange string `json:"affected_range"`
+	FixedVersion  string `json:"fixed_version"`
+	CVSSScore     string `json:"cvss_score"`
+	CVSSVector    string `json:"cvss_vector"`
+}
+
+type VulnerabilityCount struct {
+	Low      int         `json:"low"`
+	Medium   int         `json:"medium"`
+	High     int         `json:"high"`
+	Critical int         `json:"critical"`
+	Packages []CVESData `json:"packages"`
 }

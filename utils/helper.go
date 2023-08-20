@@ -1,6 +1,6 @@
 package utils
 
-import ( 
+import (
 	"strings"
 )
 
@@ -10,7 +10,6 @@ func check(e error) {
 	}
 }
 
-
 func checkReturnBool(e error) bool {
 	if e != nil {
 		return false
@@ -18,11 +17,11 @@ func checkReturnBool(e error) bool {
 	return true
 }
 
-func generateVulnerabilityCount(text string) VulnerabilityCount {
+func generateCVESData(text string) CVESData {
 
 	textList := strings.Split(text, "\n")
 
-	var vCount VulnerabilityCount
+	var cvesData CVESData
 
 	for _, textItem := range textList {
 
@@ -34,21 +33,33 @@ func generateVulnerabilityCount(text string) VulnerabilityCount {
 			bufferItemStrValue := strings.ReplaceAll(bufferItem[1], " ", "")
 
 			if bufferItemStrIndex == VULNERABILITY_SEVERITY {
+				cvesData.Severity = bufferItemStrValue
+			}
 
-				if bufferItemStrValue == SERVERITY_LOW || bufferItemStrValue == SERVERITY_UNSPECIFIED {
-					vCount.Low += 1
-				}
-				if bufferItemStrValue == SERVERITY_MEDIUM {
-					vCount.Medium += 1
-				}
-				if bufferItemStrValue == SERVERITY_HIGH {
-					vCount.High += 1
-				}
-				if bufferItemStrValue == SERVERITY_CRITICAL {
-					vCount.Critical += 1
-				}
+			if bufferItemStrIndex == VULNERABILITY_PACKAGE {
+				cvesData.Package = bufferItemStrValue
 			}
 		}
+	}
+ 
+	return cvesData
+}
+
+func generateVulnerabilityCount(cvesData CVESData) VulnerabilityCount {
+
+	var vCount VulnerabilityCount
+
+	if cvesData.Severity == SERVERITY_LOW || cvesData.Severity == SERVERITY_UNSPECIFIED {
+		vCount.Low += 1
+	}
+	if cvesData.Severity == SERVERITY_MEDIUM {
+		vCount.Medium += 1
+	}
+	if cvesData.Severity == SERVERITY_HIGH {
+		vCount.High += 1
+	}
+	if cvesData.Severity == SERVERITY_CRITICAL {
+		vCount.Critical += 1
 	}
 
 	return vCount
