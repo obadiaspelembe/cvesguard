@@ -4,12 +4,18 @@ cvesguard (Short form of Docker Scout CVES Guard) is a tool to police docker ima
 
 ## How to use cvesguard
 
+cvesguard is based on docker scout command with sarif format to json. You can run the command as per example:
+
+
+```bash
+docker scout cves hello-world --format sarif --output cves-report.json
+```
 There're few commands available for cvesguard tool.
 
 ### Lint
 Validates if the policy and cves files are compliant with the schema .
 
-```
+``` bash
 cvesguard lint --policy policy.yaml --cves-report cves-report.json
 
 or
@@ -21,7 +27,7 @@ cvesguard lint -p policy.yaml -r cves-report.json
 ### Exec policy
 Checks the specified policy in the manifest.
 
-```
+```bash
 cvesguard exec --policy policy.yaml --cves-report cves-report.json
 
 or
