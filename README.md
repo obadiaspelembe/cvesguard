@@ -1,15 +1,21 @@
 # CVES-Guard
 
-cvesguard (Short form of Docker Scout CVES Guard) is a tool to policy docker images cves vulnerabilities through a policy manifest in your pipeline. This tool helps CI/CD engineers to determine whether a Docker Image can be deployed after docker scout command execution.
+cvesguard (Short form of Docker Scout CVES Guard) is a tool to police docker images cves vulnerabilities through a policy manifest in your pipeline. This tool helps CI/CD engineers to determine whether a Docker Image can be deployed after docker scout command execution.
 
 ## How to use cvesguard
 
+cvesguard is based on docker scout command with sarif format to json. You can run the command as per example:
+
+
+```bash
+docker scout cves hello-world --format sarif --output cves-report.json
+```
 There're few commands available for cvesguard tool.
 
 ### Lint
 Validates if the policy and cves files are compliant with the schema .
 
-```
+``` bash
 cvesguard lint --policy policy.yaml --cves-report cves-report.json
 
 or
@@ -18,15 +24,15 @@ cvesguard lint -p policy.yaml -r cves-report.json
 
 ```
 
-### Apply
-Applies the specified policy in the manifest.
+### Exec policy
+Checks the specified policy in the manifest.
 
-```
-cvesguard apply --policy policy.yaml --cves-report cves-report.json
+```bash
+cvesguard exec --policy policy.yaml --cves-report cves-report.json
 
 or
 
-cvesguard apply -p policy.yaml -r cves-report.json
+cvesguard exec -p policy.yaml -r cves-report.json
 
 ```
 
@@ -40,14 +46,61 @@ policy.yaml
 
 ```
 ---
-version: v1.0.0
-name: policy-name
-kind: Vulnerability
+version: v1.0.0 
 spec:
   config:
-    critical: 4
-    high: 2
-    medium: 2
-    low: 2
+    vulnerability:
+      critical: 0
+      high: 0
+      medium: 100
+      low: 2
+    packages:
+      - name: log4j
+        action: ignore
+        severity:
+          - critical
+          - high
 ```
 
+### POLICY
+
+| Attribute| Type | Required |
+|----------|----------|----------|
+| version | Text | yes |
+| spec | [Spec](#spec) | yes |
+
+
+### Spec
+| Attribute| Type | Required |
+|----------|----------|----------| 
+| config | [Config](#config) | yes |
+
+### Config
+
+| Attribute| Type | Required |
+|----------|----------|----------| 
+| vulnerability | [Vulnerability](#vulnerability) | yes |
+| packages | List-[Package](#package) | No |
+
+### Vulnerability
+| Attribute| Type | Required |
+|----------|----------|----------|
+| critical | Number | yes | 
+| high | Number | yes | 
+| medium | Number | yes | 
+| low | Number | yes | 
+
+### Package
+| Attribute| Type | Required |
+|----------|----------|----------|
+| name | Text | yes | 
+| action | Text - Available options `allow` and `deny` | yes | 
+| severity | List - Available options `critical`, `high`, `medium` and `low` | yes | 
+
+## Contributing
+
+Contributions are welcome! Please do not hesitate to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.

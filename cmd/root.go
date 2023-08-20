@@ -23,16 +23,15 @@ func Execute() {
 
 	lintCommand.Flags().StringVarP(&policy, "policy", "p", "", "Policy is required")
 	lintCommand.Flags().StringVarP(&report, "cves-report", "r", "", "CVES report filename")
-	
-	applyCommand.Flags().StringVarP(&policy, "policy", "p", "", "Policy is required")
-	applyCommand.Flags().StringVarP(&report, "cves-report", "r", "", "CVES report filename")
-	
-	lintCommand.MarkFlagRequired("cves-report")
-	applyCommand.MarkFlagRequired("cves-report")
 
+	execCommand.Flags().StringVarP(&policy, "policy", "p", "", "Policy is required")
+	execCommand.Flags().StringVarP(&report, "cves-report", "r", "", "CVES report filename")
+
+	lintCommand.MarkFlagRequired("cves-report")
+	execCommand.MarkFlagRequired("cves-report")
 
 	rootCommand.AddCommand(lintCommand)
-	rootCommand.AddCommand(applyCommand)
+	rootCommand.AddCommand(execCommand)
 
 	if err := rootCommand.Execute(); err != nil {
 		fmt.Println(err)

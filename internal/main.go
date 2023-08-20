@@ -7,6 +7,6 @@ import (
 
 
 
-  func main() {
+func main() {
 	cmd.Execute()
 }

@@ -1,36 +1,49 @@
 package utils
 
-import "fmt"
-
-type VulnerabilityCount struct {
-	Low      int `json:"low"`
-	Medium   int `json:"medium"`
-	High     int `json:"high"`
-	Critical int `json:"critical"`
-}
-
-func ApplyPolicy(policyPath string, reportPath string) bool {
+func ExecPolicy(policyPath string, reportPath string) bool {
 	policy := readPolicyFile(policyPath)
 	report := getReport(reportPath)
 
-	if policy.Spec.Config.Low > report.Low {
-		fmt.Println("Low unexpected ")
-		return false
-	}
-	if policy.Spec.Config.Medium > report.Medium {
-		fmt.Println("Medium unexpected ")
-		return false
-	}
-	if policy.Spec.Config.High > report.High {
-		fmt.Println("High unexpected ")
-		return false
-	}
-	if policy.Spec.Config.Critical > report.Critical {
-		fmt.Println("Critical unexpected ")
-		return false
+	skipCheck := checkPackagePolicy(report.Packages, policy)
+
+	if *policy.Spec.Config.Vulnerability.Critical <= report.Critical {
+		logVulnerability("Critical", report.Critical, *policy.Spec.Config.Vulnerability.Critical)
+		skipCheck = true
 	}
 
-	return true
+	if *policy.Spec.Config.Vulnerability.High <= report.High {
+		logVulnerability("High", report.High, *policy.Spec.Config.Vulnerability.High)
+		skipCheck = true
+	}
+
+	if *policy.Spec.Config.Vulnerability.Medium <= report.Medium {
+		logVulnerability("Medium", report.Medium, *policy.Spec.Config.Vulnerability.Medium)
+		skipCheck = true
+	}
+
+	if *policy.Spec.Config.Vulnerability.Low <= report.Low {
+		logVulnerability("Low", report.Low, *policy.Spec.Config.Vulnerability.Low)
+		skipCheck = true
+	}
+
+	return skipCheck
+}
+
+func checkPackagePolicy(cvesPackages []CVESData, policy Policy) bool {
+
+	skipCheck := false
+
+	for _, pPackage := range policy.Spec.Config.Packages {
+		for _, cvesPackage := range cvesPackages {
+			skip := checkPackageAction(cvesPackage, *pPackage)
+
+			if skip {
+				skipCheck = skip
+				break
+			}
+		}
+	}
+	return skipCheck
 }
 
 func getReport(path string) VulnerabilityCount {
@@ -39,22 +52,17 @@ func getReport(path string) VulnerabilityCount {
 
 	var vCount VulnerabilityCount
 
-	for _, vRuns := range report.Runs {
-		for _, vCounts := range vRuns.Tool.Driver.Rules {
-			if vCounts.Properties.Tags[0] == "LOW" || vCounts.Properties.Tags[0] == "UNSPECIFIED" {
-				vCount.Low += 1
-			}
-			if vCounts.Properties.Tags[0] == "MEDIUM" {
-				vCount.Medium += 1
-			}
-			if vCounts.Properties.Tags[0] == "HIGH" {
-				vCount.High += 1
-			}
-			if vCounts.Properties.Tags[0] == "CRITICAL" {
-				vCount.Critical += 1
-			}
+	for _, vRuns := range *report.Runs {
+		for _, vCounts := range *vRuns.Results {
+			cvesData := generateCVESData(*vCounts.Message.Text)
+			vCountBuffer := generateVulnerabilityCount(cvesData)
+
+			vCount.Critical = vCount.Critical + vCountBuffer.Critical
+			vCount.High = vCount.High + vCountBuffer.High
+			vCount.Medium = vCount.Medium + vCountBuffer.Medium
+			vCount.Low = vCount.Low + vCountBuffer.Low
+			vCount.Packages = append(vCount.Packages, cvesData)
 		}
 	}
-
 	return vCount
 }
