@@ -64,26 +64,26 @@ spec:
 
 ### POLICY
 
-| NAME| Type | Required |
+| Attribute| Type | Required |
 |----------|----------|----------|
 | version | Text | yes |
 | spec | [Spec](#spec) | yes |
 
 
 ### Spec
-| NAME| Type | Required |
+| Attribute| Type | Required |
 |----------|----------|----------| 
 | config | [Config](#config) | yes |
 
 ### Config
 
-| NAME| Type | Required |
+| Attribute| Type | Required |
 |----------|----------|----------| 
 | vulnerability | [Vulnerability](#vulnerability) | yes |
 | packages | List-[Package](#package) | No |
 
 ### Vulnerability
-| NAME| Type | Required |
+| Attribute| Type | Required |
 |----------|----------|----------|
 | critical | Number | yes | 
 | high | Number | yes | 
@@ -91,7 +91,7 @@ spec:
 | low | Number | yes | 
 
 ### Package
-| NAME| Type | Required |
+| Attribute| Type | Required |
 |----------|----------|----------|
 | name | Text | yes | 
 | action | Text - Available options `allow` and `deny` | yes | 
